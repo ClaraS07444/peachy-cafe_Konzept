@@ -1,6 +1,6 @@
 /* ================================================================
-   PEACHY — Global design system · Final corrected v5
-   Proportional hero logo and undistorted peach symbols.
+   PEACHY — Global design system · Final corrected v6
+   Compact laptop hero, cropped transparent logo margins and mobile polish.
    ================================================================ */
 
 :root {
@@ -403,27 +403,21 @@ h3 {
 .hero-logo-frame {
   position: relative;
   width: min(100%, 43rem);
-  height: auto;
-  overflow: visible;
+  height: 0;
+  padding-top: 25.17%;
+  overflow: hidden;
 }
 
 .hero-logo-frame img {
-  position: static;
+  position: absolute;
+  top: 0;
+  left: -15.78%;
   display: block;
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  object-fit: contain;
-  object-position: left center;
-}
-
-.hero-tagline {
-  margin: 0.6rem 0 0;
-  color: var(--copper);
-  font-size: clamp(0.78rem, 1.2vw, 1.02rem);
-  letter-spacing: 0.22em;
-  line-height: 1.35;
-  text-transform: uppercase;
+  width: 131.06%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center 49.4%;
 }
 
 .hero-art {
@@ -1371,25 +1365,49 @@ textarea[aria-invalid="true"] {
 
 @media (min-width: 768px) and (max-width: 1399px) {
   .home-hero {
+    min-height: calc(100svh - var(--header-height));
     align-content: start;
+    padding-top: clamp(1rem, 2.2vh, 1.5rem);
+    padding-bottom: clamp(2.5rem, 7vh, 4rem);
     grid-template-rows: auto auto auto;
   }
 
+  .hero-logo-frame {
+    width: min(100%, 35rem);
+  }
+
   .hero-actions {
+    width: min(100%, 35rem);
+    margin-top: clamp(0.75rem, 1.8vh, 1rem);
     margin-bottom: 0;
   }
 
   .hero-actions .button {
-    padding-block: 1.1rem;
+    padding-block: 0.85rem;
   }
 
   .hero-claim {
     position: static;
     width: 100%;
     margin-top: 0;
-    padding-top: clamp(3.5rem, 7vw, 5.5rem);
+    padding-top: clamp(1.25rem, 3vh, 2rem);
     grid-column: 1;
     grid-row: 3;
+  }
+
+  .hero-claim h1 {
+    max-width: 12ch;
+    margin-bottom: 0.35rem;
+    font-size: clamp(3rem, 4.7vw, 4.35rem);
+  }
+
+  .hero-claim p {
+    font-size: clamp(0.88rem, 1.25vw, 1.05rem);
+  }
+
+  .hero-art {
+    top: -1rem;
+    height: calc(100% + 3rem);
   }
 }
 
@@ -1404,7 +1422,7 @@ textarea[aria-invalid="true"] {
   }
 
   .home-hero {
-    min-height: 48rem;
+    min-height: min(48rem, calc(100svh - var(--header-height)));
     grid-template-columns: 55% 45%;
   }
 
@@ -1594,8 +1612,8 @@ textarea[aria-invalid="true"] {
   .home-hero {
     display: grid;
     min-height: 0;
-    padding-top: 2.5rem;
-    padding-bottom: 4.5rem;
+    padding-top: clamp(1.25rem, 5vw, 2rem);
+    padding-bottom: clamp(3rem, 12vw, 4rem);
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto auto auto;
   }
@@ -1609,6 +1627,7 @@ textarea[aria-invalid="true"] {
 
   .hero-logo-frame {
     width: 100%;
+    max-width: 34rem;
   }
 
   .hero-art {
@@ -1630,7 +1649,7 @@ textarea[aria-invalid="true"] {
   .hero-actions {
     width: 100%;
     min-width: 0;
-    margin-top: 1.25rem;
+    margin-top: 1rem;
     grid-column: 1;
     grid-row: 2;
   }
@@ -1639,14 +1658,14 @@ textarea[aria-invalid="true"] {
     position: static;
     width: 100%;
     min-width: 0;
-    padding-top: clamp(3rem, 13vw, 4rem);
+    padding-top: clamp(2rem, 9vw, 3rem);
     grid-column: 1;
     grid-row: 3;
   }
 
   .hero-claim h1 {
-    max-width: 8ch;
-    font-size: clamp(3.25rem, 15vw, 5.5rem);
+    max-width: 10ch;
+    font-size: clamp(3rem, 14vw, 5.25rem);
   }
 
   .hero-claim p {

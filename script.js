@@ -1,6 +1,6 @@
 /* ================================================================
    PEACHY — Navigation, GSAP motion, slider and form interactions
-   Final corrected v5 · verified hero flow, routes and responsive connections.
+   Final corrected v6 · top-reset navigation and repeatable scroll reveals.
    ================================================================ */
 
 "use strict";
@@ -104,6 +104,18 @@
     elements.main.focus({ preventScroll: true });
   }
 
+  function scrollPageToTop() {
+    document.documentElement.scrollTop = 0;
+    elements.body.scrollTop = 0;
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+
+    window.requestAnimationFrame(() => {
+      document.documentElement.scrollTop = 0;
+      elements.body.scrollTop = 0;
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+  }
+
   function showRoute(route, options = {}) {
     const { scrollToTop = true, focusMain = false } = options;
     const validRoute = normalizeRoute(route);
@@ -121,7 +133,7 @@
     updateActiveLinks(validRoute);
 
     if (scrollToTop) {
-      window.scrollTo({ top: 0, behavior: "auto" });
+      scrollPageToTop();
     }
 
     if (focusMain) {
@@ -234,14 +246,21 @@
     from.scrollTrigger = {
       trigger: element,
       start: "top 88%",
-      once: true
+      toggleActions: "restart none restart reset"
     };
 
     window.gsap.from(element, from);
   }
 
   function initializeHomeAnimations(view) {
-    const timeline = window.gsap.timeline({ defaults: { ease: "power3.out" } });
+    const timeline = window.gsap.timeline({
+      defaults: { ease: "power3.out" },
+      scrollTrigger: {
+        trigger: view.querySelector(".home-hero"),
+        start: "top 88%",
+        toggleActions: "restart none restart reset"
+      }
+    });
     const heroBrand = view.querySelector("[data-hero-brand]");
     const heroArt = view.querySelector("[data-hero-art]");
     const heroActions = view.querySelector("[data-hero-actions]");
@@ -274,7 +293,7 @@
         scrollTrigger: {
           trigger: view.querySelector("[data-drink-row]"),
           start: "top 86%",
-          once: true
+          toggleActions: "restart none restart reset"
         }
       });
     }
@@ -290,7 +309,7 @@
         scrollTrigger: {
           trigger: view.querySelector("[data-food-row]"),
           start: "top 86%",
-          once: true
+          toggleActions: "restart none restart reset"
         }
       });
     }
