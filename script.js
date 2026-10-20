@@ -1,6 +1,6 @@
 /* ================================================================
    PEACHY — Navigation, GSAP motion, slider and form interactions
-   Final corrected v3 · flow-based hero and direct-image card animations.
+   Final corrected v5 · verified hero flow, routes and responsive connections.
    ================================================================ */
 
 "use strict";
