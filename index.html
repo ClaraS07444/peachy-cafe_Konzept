@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- PEACHY FINAL CORRECTED v3: direct images and flow-based responsive hero -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#6A1F3A">
@@ -11,14 +12,14 @@
   <meta property="og:image" content="peach.ice.png">
   <title>peachy Café | Coffee, Good Food & Bright Days</title>
 
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="peachy-peach.png">
+  <link rel="shortcut icon" type="image/png" href="peachy-peach.png">
+  <link rel="apple-touch-icon" href="peachy-peach.png">
+  <link rel="stylesheet" href="styles.css?v=20261020-3">
 
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script defer src="script.js"></script>
+  <script defer src="script.js?v=20261020-3"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -75,10 +76,6 @@
           <p class="hero-tagline">Café <span aria-hidden="true">•</span> Good food <span aria-hidden="true">•</span> Bright days</p>
         </div>
 
-        <div class="hero-art" data-hero-art aria-hidden="true">
-          <img src="peachy-head-tarte.png" alt="" width="736" height="1104">
-        </div>
-
         <div class="hero-actions" data-hero-actions>
           <a class="button button--primary" href="#menu" data-route-link="menu">Our menu</a>
           <a class="button button--primary" href="#about" data-route-link="about">About us</a>
@@ -88,22 +85,34 @@
           <h1>Everything is peachy</h1>
           <p>Peachy is everything.</p>
         </div>
+
+        <div class="hero-art" data-hero-art aria-hidden="true">
+          <img src="peachy-head-tarte.png" alt="" width="736" height="1104">
+        </div>
       </div>
 
       <section class="showcase showcase--drinks" aria-labelledby="drinks-title">
         <div class="visually-hidden" id="drinks-title">Signature drinks</div>
         <div class="product-row product-row--drinks" data-drink-row>
           <article class="product-card">
-            <div class="product-media product-media--drink sprite-drink-1" role="img" aria-label="Iced latte in a tall glass"></div>
+            <div class="product-media product-media--drink">
+              <img src="drink.1.png" alt="Iced latte in a tall glass" width="1200" height="1500" loading="lazy">
+            </div>
           </article>
           <article class="product-card">
-            <div class="product-media product-media--drink sprite-drink-2" role="img" aria-label="Green matcha latte with ice"></div>
+            <div class="product-media product-media--drink">
+              <img src="drink.2.png" alt="Green matcha latte with ice" width="1200" height="1500" loading="lazy">
+            </div>
           </article>
           <article class="product-card">
-            <div class="product-media product-media--drink sprite-drink-3" role="img" aria-label="Peach iced tea with fruit garnish"></div>
+            <div class="product-media product-media--drink">
+              <img src="drink.3.png" alt="Peach iced tea with fruit garnish" width="1200" height="1500" loading="lazy">
+            </div>
           </article>
           <article class="product-card">
-            <div class="product-media product-media--drink sprite-drink-4" role="img" aria-label="Flat white with latte art"></div>
+            <div class="product-media product-media--drink">
+              <img src="drink.4.png" alt="Flat white with latte art" width="1200" height="1500" loading="lazy">
+            </div>
           </article>
         </div>
       </section>
@@ -116,19 +125,27 @@
           </div>
           <div class="product-row product-row--food" data-food-row>
             <article class="product-card">
-              <div class="product-media product-media--food sprite-food-1" role="img" aria-label="Avocado toast with greens"></div>
+              <div class="product-media product-media--food">
+                <img src="essen.1.png" alt="Avocado toast with greens" width="1200" height="1500" loading="lazy">
+              </div>
               <h2 class="product-card__title">Avocado Toast</h2>
             </article>
             <article class="product-card">
-              <div class="product-media product-media--food sprite-food-2" role="img" aria-label="Fresh filled bagel"></div>
+              <div class="product-media product-media--food">
+                <img src="essen.2.png" alt="Fresh filled bagel" width="1200" height="1500" loading="lazy">
+              </div>
               <h2 class="product-card__title">Bagels</h2>
             </article>
             <article class="product-card">
-              <div class="product-media product-media--food sprite-food-3" role="img" aria-label="Golden butter croissant"></div>
+              <div class="product-media product-media--food">
+                <img src="essen.3.png" alt="Golden butter croissant" width="1200" height="1500" loading="lazy">
+              </div>
               <h2 class="product-card__title">Croissants</h2>
             </article>
             <article class="product-card">
-              <div class="product-media product-media--food sprite-food-4" role="img" aria-label="Slice of cake with peach topping"></div>
+              <div class="product-media product-media--food">
+                <img src="essen.4.png" alt="Slice of cake with peach topping" width="1200" height="1500" loading="lazy">
+              </div>
               <h2 class="product-card__title">Cakes</h2>
             </article>
           </div>
@@ -277,17 +294,19 @@
             <p class="section-intro">Bright, chilled and gently sweet options beyond coffee.</p>
           </div>
           <div class="visual-menu-grid">
-            <article class="visual-menu-card" data-reveal="up"><div class="visual-menu-card__image product-media menu-image--matcha" role="img" aria-label="Classic iced matcha"></div><div><h3>Classic Matcha</h3><p>Earthy matcha with smooth milk.</p><span>€ —</span></div></article>
-            <article class="visual-menu-card" data-reveal="up"><div class="visual-menu-card__image product-media menu-image--matcha-strawberry" role="img" aria-label="Strawberry matcha concept"></div><div><h3>Strawberry Matcha</h3><p>Green tea with a soft berry layer.</p><span>€ —</span></div></article>
-            <article class="visual-menu-card" data-reveal="up"><div class="visual-menu-card__image product-media menu-image--peach-ice" role="img" aria-label="Peach iced tea"></div><div><h3>Peach Iced Tea</h3><p>Juicy peach, tea and plenty of ice.</p><span>€ —</span></div></article>
-            <article class="visual-menu-card" data-reveal="up"><div class="visual-menu-card__image product-media menu-image--seasonal" role="img" aria-label="Seasonal drink special"></div><div><h3>Seasonal Special</h3><p>A changing peachy favourite.</p><span>€ —</span></div></article>
+            <article class="visual-menu-card" data-reveal="up"><div class="visual-menu-card__image product-media"><img src="matcha.png" alt="Classic iced matcha" width="1200" height="1500" loading="lazy"></div><div><h3>Classic Matcha</h3><p>Earthy matcha with smooth milk.</p><span>€ —</span></div></article>
+            <article class="visual-menu-card" data-reveal="up"><div class="visual-menu-card__image product-media"><img src="matcha.s.png" alt="Strawberry matcha concept" width="1200" height="1500" loading="lazy"></div><div><h3>Strawberry Matcha</h3><p>Green tea with a soft berry layer.</p><span>€ —</span></div></article>
+            <article class="visual-menu-card" data-reveal="up"><div class="visual-menu-card__image product-media"><img src="peach.ice.png" alt="Peach iced tea" width="1200" height="1500" loading="lazy"></div><div><h3>Peach Iced Tea</h3><p>Juicy peach, tea and plenty of ice.</p><span>€ —</span></div></article>
+            <article class="visual-menu-card" data-reveal="up"><div class="visual-menu-card__image product-media"><img src="seasonal.special.png" alt="Seasonal drink special" width="1200" height="1500" loading="lazy"></div><div><h3>Seasonal Special</h3><p>A changing peachy favourite.</p><span>€ —</span></div></article>
           </div>
         </div>
       </section>
 
       <section class="menu-section section" id="breakfast" aria-labelledby="breakfast-title">
         <div class="content-container split-feature">
-          <div class="split-feature__image product-media menu-image--breakfast" role="img" aria-label="Breakfast selection from the peachy menu" data-reveal="left"></div>
+          <div class="split-feature__image product-media" data-reveal="left">
+            <img src="breakfast.png" alt="Breakfast selection from the peachy menu" width="1600" height="1300" loading="lazy">
+          </div>
           <div data-reveal="up">
             <p class="eyebrow">03 · Breakfast &amp; bagels</p>
             <h2 id="breakfast-title" class="display-heading">Fresh, simple, satisfying.</h2>
@@ -314,7 +333,9 @@
               <article><div><h3>Cookie</h3><p>Crisp edge, soft centre.</p></div><span>€ —</span></article>
             </div>
           </div>
-          <div class="split-feature__image product-media menu-image--sweets" role="img" aria-label="Sweet selection from the peachy menu" data-reveal="right"></div>
+          <div class="split-feature__image product-media" data-reveal="right">
+            <img src="sweets.png" alt="Sweet selection from the peachy menu" width="1600" height="1300" loading="lazy">
+          </div>
         </div>
       </section>
 
@@ -377,15 +398,15 @@
       <section class="section" aria-labelledby="craft-title">
         <div class="content-container craft-stack">
           <article class="craft-row">
-            <div class="craft-row__image product-media sprite-drink-1" role="img" aria-label="Carefully prepared iced coffee" data-reveal="left"></div>
+            <div class="craft-row__image product-media" data-reveal="left"><img src="drink.1.png" alt="Carefully prepared iced coffee" width="1200" height="1500" loading="lazy"></div>
             <div data-reveal="up"><p class="eyebrow">Coffee</p><h2 id="craft-title">Made one cup at a time.</h2><p>Balanced espresso, silky milk and cold drinks that feel as good as they look.</p></div>
           </article>
           <article class="craft-row craft-row--reverse">
-            <div class="craft-row__image product-media sprite-food-3" role="img" aria-label="Golden baked croissant" data-reveal="right"></div>
+            <div class="craft-row__image product-media" data-reveal="right"><img src="essen.3.png" alt="Golden baked croissant" width="1200" height="1500" loading="lazy"></div>
             <div data-reveal="up"><p class="eyebrow">Bakes</p><h2>Golden, layered, fresh.</h2><p>Pastries and sweets selected for soft mornings and afternoon pauses.</p></div>
           </article>
           <article class="craft-row">
-            <div class="craft-row__image product-media sprite-food-1" role="img" aria-label="Fresh seasonal food" data-reveal="left"></div>
+            <div class="craft-row__image product-media" data-reveal="left"><img src="essen.1.png" alt="Fresh seasonal food" width="1200" height="1500" loading="lazy"></div>
             <div data-reveal="up"><p class="eyebrow">Seasonal food</p><h2>Colour on every plate.</h2><p>Simple combinations inspired by fresh produce and the mood of the season.</p></div>
           </article>
         </div>

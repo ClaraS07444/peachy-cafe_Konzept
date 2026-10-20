@@ -1,5 +1,6 @@
 /* ================================================================
-   PEACHY — Navigation, native motion, slider and form interactions
+   PEACHY — Navigation, GSAP motion, slider and form interactions
+   Final corrected v3 · flow-based hero and direct-image card animations.
    ================================================================ */
 
 "use strict";
@@ -39,9 +40,7 @@
   const state = {
     route: "home",
     lastFocusedElement: null,
-    scrollResetFrame: null,
-    activeAnimations: [],
-    motionObservers: []
+    gsapContext: null
   };
 
   const elements = {
@@ -105,22 +104,6 @@
     elements.main.focus({ preventScroll: true });
   }
 
-  function scrollToPageTop() {
-    const root = document.documentElement;
-    if (state.scrollResetFrame) {
-      window.cancelAnimationFrame(state.scrollResetFrame);
-    }
-
-    root.style.setProperty("scroll-behavior", "auto", "important");
-    root.scrollTop = 0;
-    document.body.scrollTop = 0;
-
-    state.scrollResetFrame = window.requestAnimationFrame(() => {
-      root.style.removeProperty("scroll-behavior");
-      state.scrollResetFrame = null;
-    });
-  }
-
   function showRoute(route, options = {}) {
     const { scrollToTop = true, focusMain = false } = options;
     const validRoute = normalizeRoute(route);
@@ -138,7 +121,7 @@
     updateActiveLinks(validRoute);
 
     if (scrollToTop) {
-      scrollToPageTop();
+      window.scrollTo({ top: 0, behavior: "auto" });
     }
 
     if (focusMain) {
@@ -147,10 +130,7 @@
 
     window.requestAnimationFrame(() => {
       initializeRouteAnimations(validRoute);
-
-      if (scrollToTop) {
-        scrollToPageTop();
-      }
+      window.ScrollTrigger?.refresh();
     });
   }
 
@@ -225,205 +205,129 @@
   }
 
   /* ----------------------------------------------------------------
-     Dependency-free motion system
+     GSAP animation system
      ---------------------------------------------------------------- */
 
-  const MOTION_EASE = {
-    strong: "cubic-bezier(0.22, 1, 0.36, 1)",
-    soft: "cubic-bezier(0.16, 1, 0.3, 1)"
-  };
-
-  function clearPreparedStyles(element) {
-    element.style.removeProperty("opacity");
-    element.style.removeProperty("transform");
-  }
-
-  function cleanupMotion() {
-    state.motionObservers.forEach((observer) => observer.disconnect());
-    state.motionObservers = [];
-
-    state.activeAnimations.forEach(({ animation, element }) => {
-      animation.cancel();
-      clearPreparedStyles(element);
-    });
-    state.activeAnimations = [];
+  function hasGsap() {
+    return Boolean(window.gsap && window.ScrollTrigger);
   }
 
   function revealWithoutMotion(view) {
     view.querySelectorAll(
       "[data-hero-brand], [data-hero-art], [data-hero-actions], [data-hero-claim], [data-drink-row] .product-card, [data-food-row] .product-card, [data-reveal]"
-    ).forEach(clearPreparedStyles);
-  }
-
-  function prepareElement(element, transform) {
-    if (!element) return;
-    element.style.opacity = "0";
-    element.style.transform = transform;
-  }
-
-  function animatePreparedElement(element, options = {}) {
-    if (!element) return;
-
-    const {
-      transform = "translate3d(0, 24px, 0)",
-      duration = 680,
-      delay = 0,
-      easing = MOTION_EASE.soft
-    } = options;
-
-    if (typeof element.animate !== "function") {
-      clearPreparedStyles(element);
-      return;
-    }
-
-    const animation = element.animate(
-      [
-        { opacity: 0, transform },
-        { opacity: 1, transform: "translate3d(0, 0, 0) scale(1)" }
-      ],
-      {
-        duration,
-        delay,
-        easing,
-        fill: "both"
-      }
-    );
-
-    clearPreparedStyles(element);
-    state.activeAnimations.push({ animation, element });
-
-    animation.addEventListener(
-      "finish",
-      () => {
-        animation.cancel();
-        state.activeAnimations = state.activeAnimations.filter(
-          (entry) => entry.animation !== animation
-        );
-      },
-      { once: true }
-    );
-  }
-
-  function observeOnce(trigger, callback, rootMargin = "0px 0px -12% 0px") {
-    if (!("IntersectionObserver" in window)) {
-      callback();
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        observer.disconnect();
-        callback();
-      },
-      { rootMargin, threshold: 0.08 }
-    );
-
-    observer.observe(trigger);
-    state.motionObservers.push(observer);
-  }
-
-  function transformForDirection(direction) {
-    if (direction === "left") return "translate3d(-70px, 0, 0)";
-    if (direction === "right") return "translate3d(70px, 0, 0)";
-    if (direction === "scale") return "translate3d(0, 0, 0) scale(0.92)";
-    return "translate3d(0, 24px, 0)";
-  }
-
-  function createScrollReveal(element) {
-    const transform = transformForDirection(element.dataset.reveal || "up");
-    prepareElement(element, transform);
-    observeOnce(element, () => {
-      animatePreparedElement(element, { transform, duration: 680 });
+    ).forEach((element) => {
+      element.style.removeProperty("opacity");
+      element.style.removeProperty("visibility");
+      element.style.removeProperty("transform");
     });
   }
 
-  function createStaggeredRowReveal(row, direction) {
-    if (!row) return;
+  function createScrollReveal(element) {
+    const direction = element.dataset.reveal || "up";
+    const from = { autoAlpha: 0, duration: 0.68, ease: "power2.out" };
 
-    const cards = [...row.querySelectorAll(".product-card")];
-    const transform = `translate3d(${direction * 160}px, 0, 0)`;
-    cards.forEach((card) => prepareElement(card, transform));
+    if (direction === "left") from.x = -70;
+    if (direction === "right") from.x = 70;
+    if (direction === "up") from.y = 24;
+    if (direction === "scale") from.scale = 0.92;
 
-    observeOnce(row, () => {
-      cards.forEach((card, index) => {
-        animatePreparedElement(card, {
-          transform,
-          duration: 850,
-          delay: index * 70,
-          easing: MOTION_EASE.strong
-        });
-      });
-    }, "0px 0px -14% 0px");
+    from.scrollTrigger = {
+      trigger: element,
+      start: "top 88%",
+      once: true
+    };
+
+    window.gsap.from(element, from);
   }
 
   function initializeHomeAnimations(view) {
+    const timeline = window.gsap.timeline({ defaults: { ease: "power3.out" } });
     const heroBrand = view.querySelector("[data-hero-brand]");
     const heroArt = view.querySelector("[data-hero-art]");
     const heroActions = view.querySelector("[data-hero-actions]");
     const heroClaim = view.querySelector("[data-hero-claim]");
 
-    const heroAnimations = [
-      {
-        element: heroBrand,
-        transform: "translate3d(-150px, 0, 0)",
-        duration: 1150,
-        delay: 0
-      },
-      {
-        element: heroArt,
-        transform: "translate3d(38vw, 0, 0)",
-        duration: 1250,
-        delay: 80
-      },
-      {
-        element: heroActions,
-        transform: "translate3d(0, 18px, 0)",
-        duration: 650,
-        delay: 620
-      },
-      {
-        element: heroClaim,
-        transform: "translate3d(0, 24px, 0)",
-        duration: 720,
-        delay: 720
-      }
-    ];
+    if (heroBrand) {
+      timeline.from(heroBrand, { x: -150, autoAlpha: 0, duration: 1.15 }, 0);
+    }
 
-    heroAnimations.forEach((settings) => {
-      prepareElement(settings.element, settings.transform);
-      animatePreparedElement(settings.element, {
-        ...settings,
-        easing: MOTION_EASE.strong
+    if (heroArt) {
+      timeline.from(heroArt, { x: "38vw", autoAlpha: 0, duration: 1.25 }, 0.08);
+    }
+
+    if (heroActions) {
+      timeline.from(heroActions, { y: 18, autoAlpha: 0, duration: 0.65 }, 0.62);
+    }
+
+    if (heroClaim) {
+      timeline.from(heroClaim, { y: 24, autoAlpha: 0, duration: 0.72 }, 0.72);
+    }
+
+    const drinkCards = view.querySelectorAll("[data-drink-row] .product-card");
+    if (drinkCards.length > 0) {
+      window.gsap.from(drinkCards, {
+        x: -160,
+        autoAlpha: 0,
+        duration: 0.85,
+        stagger: 0.07,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: view.querySelector("[data-drink-row]"),
+          start: "top 86%",
+          once: true
+        }
       });
-    });
+    }
 
-    createStaggeredRowReveal(view.querySelector("[data-drink-row]"), -1);
-    createStaggeredRowReveal(view.querySelector("[data-food-row]"), 1);
+    const foodCards = view.querySelectorAll("[data-food-row] .product-card");
+    if (foodCards.length > 0) {
+      window.gsap.from(foodCards, {
+        x: 160,
+        autoAlpha: 0,
+        duration: 0.85,
+        stagger: 0.07,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: view.querySelector("[data-food-row]"),
+          start: "top 86%",
+          once: true
+        }
+      });
+    }
   }
 
   function initializeRouteAnimations(route) {
     const view = document.querySelector(`[data-view="${route}"]`);
-    cleanupMotion();
     if (!view) return;
 
-    if (motionQuery.matches) {
+    window.ScrollTrigger?.getAll().forEach((trigger) => trigger.kill());
+    state.gsapContext?.revert();
+    state.gsapContext = null;
+
+    if (motionQuery.matches || !hasGsap()) {
       revealWithoutMotion(view);
       return;
     }
 
-    if (route === "home") {
-      initializeHomeAnimations(view);
-    } else {
-      const firstHeading = view.querySelector(".inner-hero h1, .legal-page h1");
-      if (firstHeading && !firstHeading.closest("[data-reveal]")) {
-        const transform = "translate3d(0, 24px, 0)";
-        prepareElement(firstHeading, transform);
-        animatePreparedElement(firstHeading, { transform, duration: 720 });
-      }
-    }
+    window.gsap.registerPlugin(window.ScrollTrigger);
 
-    view.querySelectorAll("[data-reveal]").forEach(createScrollReveal);
+    state.gsapContext = window.gsap.context(() => {
+      if (route === "home") {
+        initializeHomeAnimations(view);
+      } else {
+        const firstHeading = view.querySelector(".inner-hero h1, .legal-page h1");
+        if (firstHeading) {
+          window.gsap.from(firstHeading, {
+            y: 24,
+            autoAlpha: 0,
+            duration: 0.72,
+            ease: "power2.out"
+          });
+        }
+      }
+
+      view.querySelectorAll("[data-reveal]").forEach(createScrollReveal);
+    }, view);
   }
 
   /* ----------------------------------------------------------------
@@ -523,43 +427,29 @@
     return "Please check this field.";
   }
 
-  function errorElementFor(control, createIfMissing = true) {
+  function errorElementFor(control) {
     if (!control.id) return null;
 
-    let errorElement = elements.contactForm?.querySelector(
+    const existingError = elements.contactForm?.querySelector(
       `[data-error-for="${control.id}"]`
     );
 
-    if (!errorElement && createIfMissing && elements.contactForm) {
-      errorElement = document.createElement("span");
-      errorElement.className = "field-error";
-      errorElement.dataset.errorFor = control.id;
-      control.insertAdjacentElement("afterend", errorElement);
-    }
+    if (existingError) return existingError;
+    if (!elements.contactForm) return null;
 
-    if (errorElement && !errorElement.id) {
-      errorElement.id = `${control.id}-error`;
-    }
-
+    const errorElement = document.createElement("span");
+    errorElement.className = "field-error";
+    errorElement.dataset.errorFor = control.id;
+    control.insertAdjacentElement("afterend", errorElement);
     return errorElement;
   }
 
   function clearFieldError(control) {
     control.removeAttribute("aria-invalid");
-    const errorElement = errorElementFor(control, false);
+    const errorElement = errorElementFor(control);
 
     if (errorElement) {
       errorElement.textContent = "";
-
-      const describedBy = (control.getAttribute("aria-describedby") || "")
-        .split(/\s+/)
-        .filter((id) => id && id !== errorElement.id);
-
-      if (describedBy.length > 0) {
-        control.setAttribute("aria-describedby", describedBy.join(" "));
-      } else {
-        control.removeAttribute("aria-describedby");
-      }
     }
   }
 
@@ -569,14 +459,6 @@
 
     if (errorElement) {
       errorElement.textContent = errorMessageFor(control);
-
-      const describedBy = new Set(
-        (control.getAttribute("aria-describedby") || "")
-          .split(/\s+/)
-          .filter(Boolean)
-      );
-      describedBy.add(errorElement.id);
-      control.setAttribute("aria-describedby", [...describedBy].join(" "));
     }
   }
 
@@ -724,10 +606,6 @@
   }
 
   function initialize() {
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-
     document.querySelectorAll("[data-current-year]").forEach((element) => {
       element.textContent = String(new Date().getFullYear());
     });
@@ -735,13 +613,12 @@
     setContactKind("catering");
     bindEvents();
 
-    const hadInitialHash = Boolean(window.location.hash);
     const initialRoute = routeFromLocation();
-    if (!hadInitialHash) {
+    if (!window.location.hash) {
       window.history.replaceState(null, "", "#home");
     }
 
-    showRoute(initialRoute, { scrollToTop: hadInitialHash, focusMain: false });
+    showRoute(initialRoute, { scrollToTop: false, focusMain: false });
   }
 
   if (document.readyState === "loading") {
