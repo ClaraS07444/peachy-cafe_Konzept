@@ -1352,9 +1352,11 @@ textarea[aria-invalid="true"] {
    ================================================================ */
 
 @media (min-width: 768px) and (max-width: 1599px) {
+  /* The hero fills the first screen so logo, buttons, claim and tart art
+     are all visible together without the drinks row peeking in. */
   .home-hero {
-    min-height: clamp(32rem, 70svh, 34rem);
-    align-content: start;
+    min-height: min(calc(100svh - var(--header-height)), 52rem);
+    align-content: center;
     padding-top: clamp(0.55rem, 1.3vh, 0.9rem);
     padding-bottom: clamp(1.15rem, 2.8vh, 1.75rem);
     grid-template-rows: auto auto auto;
@@ -1362,17 +1364,17 @@ textarea[aria-invalid="true"] {
 
   .hero-logo-frame {
     width: min(100%, 34rem);
+    aspect-ratio: 3 / 1;
     padding-block: 0.1rem;
   }
 
-  /* The PNG carries wide transparent margins. Scaling the image inside its
-     unchanged frame enlarges the wordmark into that empty space without
-     moving the buttons and claim. The origin sits on the wordmark's left
-     edge (13.3% of the 3:2 image inside the 4:1 frame) so it keeps its
-     current left alignment. */
+  /* The PNG carries wide transparent margins around the wordmark. Scaling
+     the image inside its frame enlarges the wordmark into that empty space
+     without pushing the buttons down. The origin is chosen so the scaled
+     wordmark starts exactly at the buttons' left edge. */
   .hero-logo-frame img {
-    transform: scale(1.25);
-    transform-origin: 5% 50%;
+    transform: scale(1.8);
+    transform-origin: 15% 50%;
   }
 
   .hero-actions {
@@ -1405,8 +1407,7 @@ textarea[aria-invalid="true"] {
   }
 
   .hero-art {
-    top: 0;
-    height: 100%;
+    right: 0;
   }
 }
 
