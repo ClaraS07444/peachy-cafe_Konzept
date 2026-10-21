@@ -1,6 +1,6 @@
 /* ================================================================
    PEACHY — Navigation, GSAP motion, slider and form interactions
-   Double-checked v8 · full hero logo, reliable top-reset navigation and responsive QA.
+   Triple-checked v9 · stable smartphone layout, full hero logo and responsive interactions.
    ================================================================ */
 
 "use strict";
@@ -63,6 +63,7 @@
   };
 
   const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const compactViewportQuery = window.matchMedia("(max-width: 767px)");
 
   function normalizeRoute(value) {
     const route = String(value || "")
@@ -248,10 +249,14 @@
   function createScrollReveal(element) {
     const direction = element.dataset.reveal || "up";
     const from = { autoAlpha: 0, duration: 0.68, ease: "power2.out" };
+    const compactOffset = compactViewportQuery.matches;
 
-    if (direction === "left") from.x = -70;
-    if (direction === "right") from.x = 70;
-    if (direction === "up") from.y = 24;
+    /* On phones all reveals stay within their own vertical flow. Large
+       horizontal offsets can otherwise look like overlapping content while
+       the animation is entering and can expand the visual viewport. */
+    if (direction === "left") compactOffset ? (from.y = 18) : (from.x = -70);
+    if (direction === "right") compactOffset ? (from.y = 18) : (from.x = 70);
+    if (direction === "up") from.y = compactOffset ? 18 : 24;
     if (direction === "scale") from.scale = 0.92;
 
     from.scrollTrigger = {
@@ -276,13 +281,26 @@
     const heroArt = view.querySelector("[data-hero-art]");
     const heroActions = view.querySelector("[data-hero-actions]");
     const heroClaim = view.querySelector("[data-hero-claim]");
+    const compactOffset = compactViewportQuery.matches;
 
     if (heroBrand) {
-      timeline.from(heroBrand, { x: -150, autoAlpha: 0, duration: 1.15 }, 0);
+      timeline.from(
+        heroBrand,
+        compactOffset
+          ? { y: 16, autoAlpha: 0, duration: 0.75 }
+          : { x: -150, autoAlpha: 0, duration: 1.15 },
+        0
+      );
     }
 
     if (heroArt) {
-      timeline.from(heroArt, { x: "38vw", autoAlpha: 0, duration: 1.25 }, 0.08);
+      timeline.from(
+        heroArt,
+        compactOffset
+          ? { y: 24, autoAlpha: 0, duration: 0.8 }
+          : { x: "38vw", autoAlpha: 0, duration: 1.25 },
+        0.08
+      );
     }
 
     if (heroActions) {
@@ -296,7 +314,8 @@
     const drinkCards = view.querySelectorAll("[data-drink-row] .product-card");
     if (drinkCards.length > 0) {
       window.gsap.from(drinkCards, {
-        x: -160,
+        x: compactOffset ? 0 : -160,
+        y: compactOffset ? 16 : 0,
         autoAlpha: 0,
         duration: 0.85,
         stagger: 0.07,
@@ -312,7 +331,8 @@
     const foodCards = view.querySelectorAll("[data-food-row] .product-card");
     if (foodCards.length > 0) {
       window.gsap.from(foodCards, {
-        x: 160,
+        x: compactOffset ? 0 : 160,
+        y: compactOffset ? 16 : 0,
         autoAlpha: 0,
         duration: 0.85,
         stagger: 0.07,
@@ -603,6 +623,17 @@
     trapMobileMenuFocus(event);
   }
 
+  function handleCompactViewportChange() {
+    /* A menu opened on a phone must never remain as an invisible scroll lock
+       after the device rotates or the viewport crosses into desktop mode. */
+    if (!compactViewportQuery.matches) {
+      closeMobileMenu({ restoreFocus: false });
+    }
+
+    initializeRouteAnimations(state.route);
+    window.ScrollTrigger?.refresh();
+  }
+
   function bindEvents() {
     window.addEventListener("hashchange", handleLocationChange);
     window.addEventListener("popstate", handleLocationChange);
@@ -634,6 +665,7 @@
     });
 
     motionQuery.addEventListener?.("change", () => initializeRouteAnimations(state.route));
+    compactViewportQuery.addEventListener?.("change", handleCompactViewportChange);
   }
 
   function initialize() {
