@@ -1364,7 +1364,7 @@ textarea[aria-invalid="true"] {
 
   .hero-logo-frame {
     width: min(100%, 34rem);
-    aspect-ratio: 3 / 1;
+    aspect-ratio: 2.75 / 1;
     padding-block: 0.1rem;
   }
 
@@ -1373,8 +1373,8 @@ textarea[aria-invalid="true"] {
      without pushing the buttons down. The origin is chosen so the scaled
      wordmark starts exactly at the buttons' left edge. */
   .hero-logo-frame img {
-    transform: scale(1.8);
-    transform-origin: 15% 50%;
+    transform: scale(1.9);
+    transform-origin: 15.4% 50%;
   }
 
   .hero-actions {
@@ -1391,7 +1391,7 @@ textarea[aria-invalid="true"] {
     position: static;
     width: 100%;
     margin-top: 0;
-    padding-top: clamp(0.7rem, 1.8vh, 1.1rem);
+    padding-top: clamp(1.5rem, 4vh, 2.75rem);
     grid-column: 1;
     grid-row: 3;
   }
