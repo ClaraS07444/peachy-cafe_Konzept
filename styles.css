@@ -1365,6 +1365,16 @@ textarea[aria-invalid="true"] {
     padding-block: 0.1rem;
   }
 
+  /* The PNG carries wide transparent margins. Scaling the image inside its
+     unchanged frame enlarges the wordmark into that empty space without
+     moving the buttons and claim. The origin sits on the wordmark's left
+     edge (13.3% of the 3:2 image inside the 4:1 frame) so it keeps its
+     current left alignment. */
+  .hero-logo-frame img {
+    transform: scale(1.25);
+    transform-origin: 5% 50%;
+  }
+
   .hero-actions {
     width: min(100%, 34rem);
     margin-top: clamp(0.4rem, 1vh, 0.65rem);
