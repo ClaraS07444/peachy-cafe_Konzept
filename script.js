@@ -1,6 +1,6 @@
 /* ================================================================
    PEACHY — Navigation, GSAP motion, slider and form interactions
-   Final corrected v3 · flow-based hero and direct-image card animations.
+   Double-checked v8 · full hero logo, reliable top-reset navigation and responsive QA.
    ================================================================ */
 
 "use strict";
@@ -104,6 +104,28 @@
     elements.main.focus({ preventScroll: true });
   }
 
+  function scrollPageToTop() {
+    const root = document.documentElement;
+    const previousInlineScrollBehavior = root.style.scrollBehavior;
+
+    /* Prevent CSS smooth scrolling and native fragment positioning from
+       leaving a newly selected page part-way down the document. */
+    root.style.scrollBehavior = "auto";
+    root.scrollTop = 0;
+    elements.body.scrollTop = 0;
+    window.scrollTo(0, 0);
+
+    window.requestAnimationFrame(() => {
+      root.scrollTop = 0;
+      elements.body.scrollTop = 0;
+      window.scrollTo(0, 0);
+
+      window.requestAnimationFrame(() => {
+        root.style.scrollBehavior = previousInlineScrollBehavior;
+      });
+    });
+  }
+
   function showRoute(route, options = {}) {
     const { scrollToTop = true, focusMain = false } = options;
     const validRoute = normalizeRoute(route);
@@ -121,7 +143,7 @@
     updateActiveLinks(validRoute);
 
     if (scrollToTop) {
-      window.scrollTo({ top: 0, behavior: "auto" });
+      scrollPageToTop();
     }
 
     if (focusMain) {
@@ -138,15 +160,16 @@
     const validRoute = normalizeRoute(route);
     const targetHash = `#${validRoute}`;
 
+    /* pushState changes the URL without triggering the browser's native
+       fragment jump. showRoute then performs one controlled top reset. */
     if (window.location.hash !== targetHash) {
-      window.location.hash = validRoute;
-      return;
+      window.history.pushState({ route: validRoute }, "", targetHash);
     }
 
-    showRoute(validRoute, options);
+    showRoute(validRoute, { ...options, scrollToTop: true });
   }
 
-  function handleHashChange() {
+  function handleLocationChange() {
     showRoute(routeFromLocation(), { scrollToTop: true, focusMain: true });
   }
 
@@ -234,14 +257,21 @@
     from.scrollTrigger = {
       trigger: element,
       start: "top 88%",
-      once: true
+      toggleActions: "restart none restart reset"
     };
 
     window.gsap.from(element, from);
   }
 
   function initializeHomeAnimations(view) {
-    const timeline = window.gsap.timeline({ defaults: { ease: "power3.out" } });
+    const timeline = window.gsap.timeline({
+      defaults: { ease: "power3.out" },
+      scrollTrigger: {
+        trigger: view.querySelector(".home-hero"),
+        start: "top 88%",
+        toggleActions: "restart none restart reset"
+      }
+    });
     const heroBrand = view.querySelector("[data-hero-brand]");
     const heroArt = view.querySelector("[data-hero-art]");
     const heroActions = view.querySelector("[data-hero-actions]");
@@ -274,7 +304,7 @@
         scrollTrigger: {
           trigger: view.querySelector("[data-drink-row]"),
           start: "top 86%",
-          once: true
+          toggleActions: "restart none restart reset"
         }
       });
     }
@@ -290,7 +320,7 @@
         scrollTrigger: {
           trigger: view.querySelector("[data-food-row]"),
           start: "top 86%",
-          once: true
+          toggleActions: "restart none restart reset"
         }
       });
     }
@@ -574,7 +604,8 @@
   }
 
   function bindEvents() {
-    window.addEventListener("hashchange", handleHashChange);
+    window.addEventListener("hashchange", handleLocationChange);
+    window.addEventListener("popstate", handleLocationChange);
     document.addEventListener("click", handleDocumentClick);
     document.addEventListener("keydown", handleDocumentKeydown);
 
@@ -606,6 +637,10 @@
   }
 
   function initialize() {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
     document.querySelectorAll("[data-current-year]").forEach((element) => {
       element.textContent = String(new Date().getFullYear());
     });

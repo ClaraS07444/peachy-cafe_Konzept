@@ -1,6 +1,6 @@
 /* ================================================================
-   PEACHY — Global design system · Final corrected v3
-   Direct image elements replace the previous sprite implementation.
+   PEACHY — Global design system · Final corrected v7
+   Responsive QA, current concept prices and clean food imagery.
    ================================================================ */
 
 :root {
@@ -298,21 +298,26 @@ h3 {
 .desktop-nav {
   position: relative;
   display: grid;
-  width: min(100% - (2 * var(--page-pad)), 1120px);
+  width: min(100% - (2 * var(--page-pad)), 900px);
   height: 100%;
   align-items: center;
   margin-inline: auto;
   grid-template-columns: 1fr auto 1fr;
+  column-gap: clamp(1.5rem, 3vw, 2.75rem);
 }
 
 .desktop-nav__group {
   display: flex;
   align-items: center;
-  gap: clamp(2.5rem, 7vw, 7rem);
+  gap: clamp(1.75rem, 3vw, 3rem);
+}
+
+.desktop-nav__group--left {
+  justify-content: flex-end;
 }
 
 .desktop-nav__group--right {
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .nav-link {
@@ -347,24 +352,25 @@ h3 {
 
 .nav-mark {
   position: relative;
-  width: 3.6rem;
-  height: 4.4rem;
-  overflow: hidden;
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  aspect-ratio: 1 / 1;
   place-self: center;
 }
 
 .nav-mark img {
-  position: absolute;
-  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
+  aspect-ratio: 1 / 1;
   object-fit: contain;
-  transform: scale(1.5);
+  object-position: center;
   transition: transform 300ms ease;
 }
 
 .nav-mark:hover img {
-  transform: scale(1.5) rotate(3deg);
+  transform: rotate(3deg);
 }
 
 .mobile-nav,
@@ -396,37 +402,28 @@ h3 {
 
 .hero-logo-frame {
   position: relative;
-  display: flex;
   width: min(100%, 43rem);
-  height: clamp(10rem, 17vw, 15rem);
-  aspect-ratio: 4.45 / 1;
-  align-items: center;
+  aspect-ratio: 4 / 1;
   overflow: hidden;
 }
 
 .hero-logo-frame img {
+  position: static;
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: left center;
-}
-
-.hero-tagline {
-  margin: 0.6rem 0 0;
-  color: var(--copper);
-  font-size: clamp(0.78rem, 1.2vw, 1.02rem);
-  letter-spacing: 0.22em;
-  line-height: 1.35;
-  text-transform: uppercase;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center center;
 }
 
 .hero-art {
   position: absolute;
   top: -2rem;
-  right: -4.5rem;
+  right: -2rem;
+  left: 58%;
   z-index: 1;
-  width: min(51vw, 48rem);
+  width: auto;
   height: calc(100% + 8rem);
   pointer-events: none;
 }
@@ -502,17 +499,6 @@ h3 {
   min-width: 0;
 }
 
-.product-card__title {
-  margin: 0.8rem 0 0;
-  color: var(--espresso);
-  font-size: clamp(0.82rem, 1.1vw, 1rem);
-  font-weight: 400;
-  letter-spacing: 0.025em;
-  line-height: 1.2;
-  text-align: center;
-  text-transform: uppercase;
-}
-
 .product-media {
   overflow: hidden;
   border-radius: 0;
@@ -542,21 +528,23 @@ h3 {
 .food-icon {
   justify-self: center;
   width: min(78%, 19rem);
-  height: clamp(11rem, 19vw, 19rem);
-  aspect-ratio: 1;
-  overflow: hidden;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  overflow: visible;
 }
 
 .food-icon img {
+  display: block;
   width: 100%;
   height: 100%;
+  aspect-ratio: 1 / 1;
   object-fit: contain;
-  transform: scale(1.48);
+  object-position: center;
   transition: transform 300ms ease;
 }
 
 .food-icon:hover img {
-  transform: scale(1.48) rotate(3deg);
+  transform: rotate(3deg);
 }
 
 .product-row--food {
@@ -827,8 +815,12 @@ h3 {
 .contact-hero-art img {
   position: relative;
   z-index: 1;
+  display: block;
   width: min(30rem, 40vw);
-  transform: scale(1.42);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  object-position: center;
 }
 
 .contact-hero-art::before {
@@ -1004,12 +996,18 @@ h3 {
   gap: clamp(3rem, 8vw, 8rem);
 }
 
+.craft-row--reverse {
+  grid-template-columns: minmax(0, 0.8fr) minmax(18rem, 1fr);
+}
+
 .craft-row--reverse > :first-child {
   order: 1;
 }
 
 .craft-row__image {
-  min-height: min(39rem, 60vw);
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
   aspect-ratio: 1 / 1.08;
 }
 
@@ -1297,10 +1295,12 @@ textarea[aria-invalid="true"] {
 }
 
 .footer-brand img {
+  display: block;
   width: 6rem;
   height: 6rem;
+  aspect-ratio: 1 / 1;
   object-fit: contain;
-  transform: scale(1.45);
+  object-position: center;
 }
 
 .footer-brand p {
@@ -1351,25 +1351,49 @@ textarea[aria-invalid="true"] {
 
 @media (min-width: 768px) and (max-width: 1399px) {
   .home-hero {
+    min-height: calc(100svh - var(--header-height));
     align-content: start;
+    padding-top: clamp(1rem, 2.2vh, 1.5rem);
+    padding-bottom: clamp(2.5rem, 7vh, 4rem);
     grid-template-rows: auto auto auto;
   }
 
+  .hero-logo-frame {
+    width: min(100%, 35rem);
+  }
+
   .hero-actions {
+    width: min(100%, 35rem);
+    margin-top: clamp(0.75rem, 1.8vh, 1rem);
     margin-bottom: 0;
   }
 
   .hero-actions .button {
-    padding-block: 1.1rem;
+    padding-block: 0.85rem;
   }
 
   .hero-claim {
     position: static;
     width: 100%;
     margin-top: 0;
-    padding-top: clamp(3.5rem, 7vw, 5.5rem);
+    padding-top: clamp(1.25rem, 3vh, 2rem);
     grid-column: 1;
     grid-row: 3;
+  }
+
+  .hero-claim h1 {
+    max-width: 12ch;
+    margin-bottom: 0.35rem;
+    font-size: clamp(3rem, 4.7vw, 4.35rem);
+  }
+
+  .hero-claim p {
+    font-size: clamp(0.88rem, 1.25vw, 1.05rem);
+  }
+
+  .hero-art {
+    top: -1rem;
+    height: calc(100% + 3rem);
   }
 }
 
@@ -1384,13 +1408,14 @@ textarea[aria-invalid="true"] {
   }
 
   .home-hero {
-    min-height: 48rem;
+    min-height: min(48rem, calc(100svh - var(--header-height)));
     grid-template-columns: 55% 45%;
   }
 
   .hero-art {
-    right: -7rem;
-    width: 57vw;
+    right: -2rem;
+    left: 58%;
+    width: auto;
   }
 
   .product-row--drinks,
@@ -1422,6 +1447,31 @@ textarea[aria-invalid="true"] {
   .visual-menu-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     row-gap: 3rem;
+  }
+
+  /* Stack image-and-copy features before tablet columns become too narrow. */
+  .split-feature,
+  .craft-row {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .split-feature--reverse > :first-child,
+  .craft-row--reverse > :first-child {
+    order: 0;
+  }
+
+  .split-feature__image,
+  .craft-row__image {
+    width: 100%;
+    min-width: 0;
+    min-height: min(34rem, 115vw);
+    aspect-ratio: auto;
+  }
+
+  .split-feature__image img,
+  .craft-row__image img {
+    min-height: inherit;
   }
 
   .contact-layout {
@@ -1471,7 +1521,8 @@ textarea[aria-invalid="true"] {
 
   .nav-mark--mobile {
     width: 3.25rem;
-    height: 3.8rem;
+    height: 3.25rem;
+    aspect-ratio: 1 / 1;
     margin: 0;
     place-self: auto;
   }
@@ -1528,10 +1579,12 @@ textarea[aria-invalid="true"] {
   }
 
   .mobile-menu__top img {
+    display: block;
     width: 3.5rem;
     height: 3.5rem;
+    aspect-ratio: 1 / 1;
     object-fit: contain;
-    transform: scale(1.45);
+    object-position: center;
   }
 
   .mobile-menu__nav {
@@ -1570,8 +1623,8 @@ textarea[aria-invalid="true"] {
   .home-hero {
     display: grid;
     min-height: 0;
-    padding-top: 2.5rem;
-    padding-bottom: 4.5rem;
+    padding-top: clamp(1.25rem, 5vw, 2rem);
+    padding-bottom: clamp(3rem, 12vw, 4rem);
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto auto auto;
   }
@@ -1585,12 +1638,14 @@ textarea[aria-invalid="true"] {
 
   .hero-logo-frame {
     width: 100%;
+    max-width: 34rem;
   }
 
   .hero-art {
     position: relative;
     top: auto;
     right: auto;
+    left: auto;
     width: calc(100% + (2 * var(--page-pad)));
     height: clamp(17rem, 78vw, 22rem);
     margin: 0 calc(-1 * var(--page-pad)) -2rem;
@@ -1605,7 +1660,7 @@ textarea[aria-invalid="true"] {
   .hero-actions {
     width: 100%;
     min-width: 0;
-    margin-top: 1.25rem;
+    margin-top: 1rem;
     grid-column: 1;
     grid-row: 2;
   }
@@ -1614,14 +1669,14 @@ textarea[aria-invalid="true"] {
     position: static;
     width: 100%;
     min-width: 0;
-    padding-top: clamp(3rem, 13vw, 4rem);
+    padding-top: clamp(2rem, 9vw, 3rem);
     grid-column: 1;
     grid-row: 3;
   }
 
   .hero-claim h1 {
-    max-width: 8ch;
-    font-size: clamp(3.25rem, 15vw, 5.5rem);
+    max-width: 10ch;
+    font-size: clamp(3rem, 14vw, 5.25rem);
   }
 
   .hero-claim p {
