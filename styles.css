@@ -2217,3 +2217,19 @@ textarea[aria-invalid="true"] {
     display: none !important;
   }
 }
+/* Laptop / Desktop Logo größer */
+@media (min-width: 768px) {
+
+  .hero-logo-frame {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .hero-logo-frame img {
+    width: 115%;
+    max-width: none;
+    height: auto;
+    object-fit: contain;
+    object-position: left center;
+  }
+}
