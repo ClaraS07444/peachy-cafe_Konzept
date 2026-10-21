@@ -1,6 +1,6 @@
 /* ================================================================
    PEACHY — Navigation, GSAP motion, slider and form interactions
-   Triple-checked v10 · compact hero layout, full hero logo and responsive interactions.
+   Triple-checked v9 · stable smartphone layout, full hero logo and responsive interactions.
    ================================================================ */
 
 "use strict";
