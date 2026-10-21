@@ -1,6 +1,6 @@
 /* ================================================================
    PEACHY — Navigation, GSAP motion, slider and form interactions
-   Final corrected v6 · top-reset navigation and repeatable scroll reveals.
+   Double-checked v8 · full hero logo, reliable top-reset navigation and responsive QA.
    ================================================================ */
 
 "use strict";
@@ -105,14 +105,24 @@
   }
 
   function scrollPageToTop() {
-    document.documentElement.scrollTop = 0;
+    const root = document.documentElement;
+    const previousInlineScrollBehavior = root.style.scrollBehavior;
+
+    /* Prevent CSS smooth scrolling and native fragment positioning from
+       leaving a newly selected page part-way down the document. */
+    root.style.scrollBehavior = "auto";
+    root.scrollTop = 0;
     elements.body.scrollTop = 0;
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    window.scrollTo(0, 0);
 
     window.requestAnimationFrame(() => {
-      document.documentElement.scrollTop = 0;
+      root.scrollTop = 0;
       elements.body.scrollTop = 0;
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      window.scrollTo(0, 0);
+
+      window.requestAnimationFrame(() => {
+        root.style.scrollBehavior = previousInlineScrollBehavior;
+      });
     });
   }
 
@@ -150,15 +160,16 @@
     const validRoute = normalizeRoute(route);
     const targetHash = `#${validRoute}`;
 
+    /* pushState changes the URL without triggering the browser's native
+       fragment jump. showRoute then performs one controlled top reset. */
     if (window.location.hash !== targetHash) {
-      window.location.hash = validRoute;
-      return;
+      window.history.pushState({ route: validRoute }, "", targetHash);
     }
 
-    showRoute(validRoute, options);
+    showRoute(validRoute, { ...options, scrollToTop: true });
   }
 
-  function handleHashChange() {
+  function handleLocationChange() {
     showRoute(routeFromLocation(), { scrollToTop: true, focusMain: true });
   }
 
@@ -593,7 +604,8 @@
   }
 
   function bindEvents() {
-    window.addEventListener("hashchange", handleHashChange);
+    window.addEventListener("hashchange", handleLocationChange);
+    window.addEventListener("popstate", handleLocationChange);
     document.addEventListener("click", handleDocumentClick);
     document.addEventListener("keydown", handleDocumentKeydown);
 
@@ -625,6 +637,10 @@
   }
 
   function initialize() {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
     document.querySelectorAll("[data-current-year]").forEach((element) => {
       element.textContent = String(new Date().getFullYear());
     });
