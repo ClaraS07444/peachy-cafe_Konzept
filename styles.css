@@ -2220,8 +2220,10 @@ textarea[aria-invalid="true"] {
 /* Laptop / Desktop Logo größer */
 @media (min-width: 768px) {
 
-  .hero-logo-frame {
+   .hero-logo-frame {
     width: 100%;
+    padding: 5px 0;
+    margin: 0;
     overflow: visible;
   }
 
