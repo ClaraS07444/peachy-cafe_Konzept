@@ -656,12 +656,12 @@ h3 {
   font-size: clamp(1.4rem, 2.7vw, 2.4rem);
 }
 
-.moment-card--one { background-image: url("drink.1.png"); }
-.moment-card--two { background-image: url("essen.2.png"); }
-.moment-card--three { background-image: url("drink.3.png"); }
-.moment-card--four { background-image: url("essen.4.png"); }
-.moment-card--five { background-image: url("breakfast.png"); }
-.moment-card--six { background-image: url("sweets.png"); }
+.moment-card--one { background-image: url("drink.1.jpg"); }
+.moment-card--two { background-image: url("essen.2.jpg"); }
+.moment-card--three { background-image: url("drink.3.jpg"); }
+.moment-card--four { background-image: url("essen.4.jpg"); }
+.moment-card--five { background-image: url("breakfast.jpg"); }
+.moment-card--six { background-image: url("sweets.jpg"); }
 
 .job-grid {
   display: grid;
@@ -1034,10 +1034,10 @@ h3 {
   background-size: cover;
 }
 
-.gallery-tile--one { background-image: url("essen.1.png"); background-position: center; grid-row: 1 / 3; }
-.gallery-tile--two { background-image: url("drink.2.png"); background-position: center; grid-column: 2 / 4; }
-.gallery-tile--three { background-image: url("peach.ice.png"); background-position: center; }
-.gallery-tile--four { background-image: url("sweets.png"); background-position: center; }
+.gallery-tile--one { background-image: url("essen.1.jpg"); background-position: center; grid-row: 1 / 3; }
+.gallery-tile--two { background-image: url("drink.2.jpg"); background-position: center; grid-column: 2 / 4; }
+.gallery-tile--three { background-image: url("peach.ice.jpg"); background-position: center; }
+.gallery-tile--four { background-image: url("sweets.jpg"); background-position: center; }
 
 /* ================================================================
    Contact page and forms
