@@ -29,11 +29,11 @@
     },
     imprint: {
       title: "Impressum | peachy Café Concept",
-      description: "Legal provider-information placeholder for the peachy concept website."
+      description: "Impressum der peachy-Konzeptwebsite, ein Konzeptprojekt von C AGENCY."
     },
     privacy: {
       title: "Datenschutz | peachy Café Concept",
-      description: "Privacy-information placeholder for the peachy concept website."
+      description: "Datenschutzhinweise der peachy-Konzeptwebsite, ein Konzeptprojekt von C AGENCY."
     }
   };
 

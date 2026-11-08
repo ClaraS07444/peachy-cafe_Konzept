@@ -17,9 +17,9 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="stylesheet" href="styles.css?v=20261023-14">
 
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script defer src="script.js?v=20261021-10"></script>
+  <script defer src="vendor/gsap/gsap.min.js?v=3.12.5"></script>
+  <script defer src="vendor/gsap/ScrollTrigger.min.js?v=3.12.5"></script>
+  <script defer src="script.js?v=20261108-11"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -514,7 +514,7 @@
 
             <div class="checkbox-field">
               <input id="privacy" name="privacy" type="checkbox" required>
-              <label for="privacy">I have read the <a href="#privacy" data-route-link="privacy">privacy placeholder</a> and agree to the processing of the information provided for this request. <span aria-hidden="true">*</span></label>
+              <label for="privacy">I have read the <a href="#privacy" data-route-link="privacy">privacy notice</a> and agree to the processing of the information provided for this request. <span aria-hidden="true">*</span></label>
             </div>
             <span class="field-error" data-error-for="privacy"></span>
 
@@ -537,31 +537,28 @@
       </section>
     </section>
 
-    <section class="view view--legal" data-view="imprint" hidden>
+    <section class="view view--legal" data-view="imprint" lang="de" hidden>
       <div class="legal-page content-container">
-        <p class="eyebrow">Legal placeholder</p>
+        <p class="eyebrow">Rechtliches</p>
         <h1>Impressum</h1>
         <div class="legal-copy">
-          <p><strong>Important:</strong> This concept page must be replaced with complete, verified provider information before publication.</p>
-          <h2>Provider information</h2><p>[Legal name]<br>[Legal form, if applicable]<br>[Street and number]<br>[Postcode and city]<br>[Country]</p>
-          <h2>Contact</h2><p>Phone: [verified number]<br>Email: [verified email address]</p>
-          <h2>Responsible for content</h2><p>[Name and address, where legally required]</p>
-          <h2>Portfolio notice</h2><p>peachy is an independent C Agency concept project and does not represent an operating café.</p>
+          <h2>Angaben gemäß § 5 DDG</h2><p>Clara Schumann<br>Bendstraße 3<br>52066 Aachen</p>
+          <h2>Kontakt</h2><p>E-Mail: <a href="mailto:clara.s@c-agency.cc">clara.s@c-agency.cc</a></p>
+          <h2>Hinweis zum Konzeptprojekt</h2><p>Diese Website ist ein Konzeptprojekt von C AGENCY. peachy ist ein fiktives Unternehmen.</p>
         </div>
       </div>
     </section>
 
-    <section class="view view--legal" data-view="privacy" hidden>
+    <section class="view view--legal" data-view="privacy" lang="de" hidden>
       <div class="legal-page content-container">
-        <p class="eyebrow">Legal placeholder</p>
+        <p class="eyebrow">Rechtliches</p>
         <h1>Datenschutz</h1>
         <div class="legal-copy">
-          <p><strong>Important:</strong> This is not a final privacy policy and does not replace legal advice. The content must be adapted to the actual hosting, form provider, storage process and controller before launch.</p>
-          <h2>Controller</h2><p>[Verified controller name and contact details]</p>
-          <h2>Hosting</h2><p>[Hosting provider, server location, processing purpose and legal basis]</p>
-          <h2>Contact forms</h2><p>The prototype form currently sends no data. Before activation, document which fields are transmitted, where they are stored, how long they are retained and on which legal basis processing takes place.</p>
-          <h2>Rights of data subjects</h2><p>Add verified information about access, rectification, erasure, restriction, objection, portability and the responsible supervisory authority.</p>
-          <h2>Analytics and external services</h2><p>No analytics are required for this portfolio prototype. Any later tracking or external service must be assessed and implemented with the required consent mechanism.</p>
+          <h2>Verantwortliche</h2><p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:</p><p>Clara Schumann<br>Bendstraße 3<br>52066 Aachen<br>E-Mail: <a href="mailto:clara.s@c-agency.cc">clara.s@c-agency.cc</a></p>
+          <h2>Hosting bei Cloudflare</h2><p>Diese Website wird über Cloudflare Pages bereitgestellt. Anbieter ist die Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA. Beim Aufruf der Website verarbeitet Cloudflare technisch notwendige Daten wie Ihre IP-Adresse, Datum und Uhrzeit des Zugriffs, die aufgerufene Seite, Browser- und Betriebssystemangaben sowie die zuvor besuchte Seite (Referrer). Diese Daten werden benötigt, um die Website auszuliefern und vor Angriffen zu schützen.</p><p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Das berechtigte Interesse liegt in einer sicheren und zuverlässigen Bereitstellung der Website. Cloudflare ist unter dem EU-U.S. Data Privacy Framework zertifiziert. Die Übermittlung in die USA erfolgt auf Grundlage des Angemessenheitsbeschlusses der EU-Kommission (Art. 45 DSGVO). Weitere Informationen finden Sie in der <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener">Datenschutzerklärung von Cloudflare</a>.</p>
+          <h2>Cookies, Analyse und externe Inhalte</h2><p>Diese Website setzt selbst keine Cookies und verwendet keine Analyse- oder Tracking-Dienste. Alle Schriften, Skripte und Bilder werden direkt von dieser Website geladen, es werden keine Inhalte von Drittanbietern eingebunden.</p>
+          <h2>Kontaktformular</h2><p>Das Kontaktformular ist Teil des Konzeptprojekts und übermittelt keine Daten. Ihre Eingaben werden weder versendet noch gespeichert.</p>
+          <h2>Ihre Rechte</h2><p>Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16 DSGVO), Löschung (Art. 17 DSGVO), Einschränkung der Verarbeitung (Art. 18 DSGVO), Datenübertragbarkeit (Art. 20 DSGVO) sowie Widerspruch gegen die Verarbeitung (Art. 21 DSGVO). Wenden Sie sich dazu an die oben genannte Verantwortliche.</p><p>Außerdem haben Sie das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren (Art. 77 DSGVO), zum Beispiel bei der Landesbeauftragten für Datenschutz und Informationsfreiheit Nordrhein-Westfalen.</p>
         </div>
       </div>
     </section>
@@ -579,7 +576,7 @@
     </div>
     <div class="content-container footer-bottom">
       <p>© <span data-current-year></span> peachy · Independent C Agency concept project</p>
-      <div><a href="#imprint" data-route-link="imprint">Impressum</a><a href="#privacy" data-route-link="privacy">Datenschutz</a></div>
+      <div><a href="#imprint" data-route-link="imprint">Impressum</a><a href="#privacy" data-route-link="privacy">Datenschutz</a><a href="https://c-agency.cc">Design: C AGENCY</a></div>
     </div>
   </footer>
 
