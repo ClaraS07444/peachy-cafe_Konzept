@@ -1330,9 +1330,11 @@ textarea[aria-invalid="true"] {
 
 @media (min-width: 768px) {
   /* The hero fills the first screen so logo, buttons, claim and tart art
-     are all visible together without the drinks row peeking in. */
+     are all visible together without the drinks row peeking in. It never
+     grows taller than the tart art can be at the current width (42vw wide
+     at a 2:3 ratio = 63vw), so tall or square windows keep no empty band. */
   .home-hero {
-    min-height: min(calc(100svh - var(--header-height)), 64rem);
+    min-height: min(calc(100svh - var(--header-height)), 64rem, 63vw);
     align-content: center;
     padding-top: clamp(0.55rem, 1.3vh, 0.9rem);
     padding-bottom: clamp(1.15rem, 2.8vh, 1.75rem);
