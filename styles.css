@@ -1325,14 +1325,14 @@ textarea[aria-invalid="true"] {
 }
 
 /* ================================================================
-   Laptop hero spacing
+   Laptop and desktop hero spacing
    ================================================================ */
 
-@media (min-width: 768px) and (max-width: 1599px) {
+@media (min-width: 768px) {
   /* The hero fills the first screen so logo, buttons, claim and tart art
      are all visible together without the drinks row peeking in. */
   .home-hero {
-    min-height: min(calc(100svh - var(--header-height)), 52rem);
+    min-height: min(calc(100svh - var(--header-height)), 64rem);
     align-content: center;
     padding-top: clamp(0.55rem, 1.3vh, 0.9rem);
     padding-bottom: clamp(1.15rem, 2.8vh, 1.75rem);
