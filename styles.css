@@ -421,7 +421,7 @@ h3 {
 .hero-art {
   position: absolute;
   top: 0;
-  right: clamp(0.5rem, 2vw, 2rem);
+  right: 0;
   left: 58%;
   z-index: 1;
   width: auto;
@@ -1382,10 +1382,6 @@ textarea[aria-invalid="true"] {
   .hero-claim p {
     font-size: clamp(0.88rem, 1.25vw, 1.05rem);
   }
-
-  .hero-art {
-    right: 0;
-  }
 }
 
 /* ================================================================
@@ -1401,12 +1397,6 @@ textarea[aria-invalid="true"] {
   .home-hero {
     min-height: clamp(32rem, 70svh, 34rem);
     grid-template-columns: 55% 45%;
-  }
-
-  .hero-art {
-    right: clamp(0.5rem, 2vw, 1.5rem);
-    left: 58%;
-    width: auto;
   }
 
   .product-row--drinks,
